@@ -36,18 +36,18 @@ def bias_flat(run, mjd, cur) :
         print (cmd)
         os.system(cmd)
 
-    for filter in ['u', 'v']:
-        out_flat_path = "/data/red/bok/%s/pass2/%s/J%d/" % (filter, run_path, mjd)
+    for fil in ['u', 'v']:
+        out_flat_path = "/data/red/bok/%s/pass2/%s/J%d/" % (fil, run_path, mjd)
         out_flat = out_flat_path + "flat.fits"
         if not os.path.isfile(out_flat):
             os.system("mkdir -p %s" % out_flat_path)
 
             sql = ("select FileName from FileBasic where MJD = %d and FilterCode = '%s' and Telescope = 'B' and Type = 'F'"
-                   % (filter, mjd))
+                   % (mjd, fil))
             print (sql)
             cur.execute(sql)
             dr_file = cur.fetchall()
-            fn_lst = "lst2/flat_%s_%d.lst" % (filter, mjd)
+            fn_lst = "lst2/flat_%s_%d.lst" % (fil, mjd)
             f_lst = open(fn_lst, "w")
             for f in dr_file:
                 f_lst.write(f[0] + "\n")
@@ -63,7 +63,7 @@ if __name__ == "__main__" :
     conn = MySQLdb.connect('localhost', 'uvbys', 'uvbySurvey', 'surveylog')
     cur = conn.cursor()
 
-    sql = "select RunID, MJD from ObsNight where substr(NightID, 5, 1)='B' and MJD >= 7330"
+    sql = "select RunID, MJD from ObsNight where substr(NightID, 5, 1)='B' and MJD >= 7331"
     cur.execute(sql)
     dr_night = cur.fetchall()
 
@@ -71,7 +71,7 @@ if __name__ == "__main__" :
         run = one_night[0]
         mjd = one_night[1]
         bias_flat(run, mjd, cur)
-        break
+        
 
     cur.close()
     conn.close()
