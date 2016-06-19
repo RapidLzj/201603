@@ -1,0 +1,6 @@
+echo 2015  8 12  201508| nohup idl bat/obj_xao.pro >>log/0504/20150812.txt 2>>log/0504/20150812.err &
+echo 2015  8 13  201508| nohup idl bat/obj_xao.pro >>log/0504/20150813.txt 2>>log/0504/20150813.err &
+echo 2015  8 15  201508| nohup idl bat/obj_xao.pro >>log/0504/20150815.txt 2>>log/0504/20150815.err &
+echo 2015  8 16  201508| nohup idl bat/obj_xao.pro >>log/0504/20150816.txt 2>>log/0504/20150816.err &
+echo 2015  8 17  201508| nohup idl bat/obj_xao.pro >>log/0504/20150817.txt 2>>log/0504/20150817.err &
+echo 2015  8 18  201508| nohup idl bat/obj_xao.pro >>log/0504/20150818.txt 2>>log/0504/20150818.err &

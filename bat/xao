@@ -1,0 +1,9 @@
+echo 2016 4 6 1 1 201604 | nohup idl bat/obj_xao.pro >log/xao06ugood.txt 2>log/xao06ugood.err &
+echo 2016 4 6 2 1 201604 | nohup idl bat/obj_xao.pro >log/xao06uothe.txt 2>log/xao06uothe.err &
+echo 2016 4 6 1 2 201604 | nohup idl bat/obj_xao.pro >log/xao06vgood.txt 2>log/xao06vgood.err &
+echo 2016 4 6 2 2 201604 | nohup idl bat/obj_xao.pro >log/xao06vothe.txt 2>log/xao06vothe.err &
+echo 2016 4 7 1 1 201604 | nohup idl bat/obj_xao.pro >log/xao07ugood.txt 2>log/xao07ugood.err &
+echo 2016 4 7 2 1 201604 | nohup idl bat/obj_xao.pro >log/xao07uothe.txt 2>log/xao07uothe.err &
+echo 2016 4 7 1 2 201604 | nohup idl bat/obj_xao.pro >log/xao07vgood.txt 2>log/xao07vgood.err &
+echo 2016 4 7 2 2 201604 | nohup idl bat/obj_xao.pro >log/xao07vothe.txt 2>log/xao07vothe.err &
+
