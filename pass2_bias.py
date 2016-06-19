@@ -15,7 +15,7 @@ def bias_flat(run, mjd, cur) :
     else :
         run_path = run[0:7]
 
-    out_bias_path = "/data/red/bok/@/pass2/%s/J%d/" % (run, mjd)
+    out_bias_path = "/data/red/bok/@/pass2/%s/J%d/" % (run_path, mjd)
     out_bias = out_bias_path + "bias.fits"
     os.system("mkdir -p %s" % out_bias_path)
 
@@ -26,7 +26,7 @@ def bias_flat(run, mjd, cur) :
     fn_lst = "lst2/bias_%d.lst" % mjd
     f_lst = open(fn_lst, "w")
     for f in dr_file:
-        f_lst.write(f + "\n")
+        f_lst.write(f[0] + "\n")
     f_lst.close()
 
     cmd = "idl bias_shell2.pro -args %s %s" % (fn_lst, out_bias)
@@ -44,8 +44,8 @@ if __name__ == "__main__" :
     dr_night = cur.fetchall()
 
     for one_night in dr_night:
-        run = one_night["RunID"]
-        mjd = one_night["MJD"]
+        run = one_night[0]
+        mjd = one_night[1]
         bias_flat(run, mjd, cur)
 
     cur.close()
