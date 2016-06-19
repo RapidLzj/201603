@@ -6,13 +6,15 @@ tel  = args[0]
 rawp = args[1]
 redp = args[2]
 bare = args[3]
+bias = args[4]
+flat = args[5]
 
-print, tel,rawp,redp,bare,format='("(",a,")")'
+print, tel,rawp,redp,bare,bias,flat,format='("(",a,")")'
 
 if tel eq 'B' then $
-    zb_pip, rawp, redp, bare, /magauto,/over,/ub1,/verbose,/keep $
+    zb_pip, rawp, redp, bare, bias, flat, /magauto,/over,/ub1,/verbose,/keep $
 else if tel eq 'N' then $
-    zn_pip, rawp, redp, bare, /magauto,/over,/ub1,/verbose,/keep $
+    zn_pip, rawp, redp, bare, bias, flat, /magauto,/over,/ub1,/verbose,/keep $
 else $
     print, 'Unknown telescope code'
 
