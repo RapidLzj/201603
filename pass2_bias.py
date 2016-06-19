@@ -17,21 +17,45 @@ def bias_flat(run, mjd, cur) :
 
     out_bias_path = "/data/red/bok/@/pass2/%s/J%d/" % (run_path, mjd)
     out_bias = out_bias_path + "bias.fits"
-    os.system("mkdir -p %s" % out_bias_path)
 
-    sql = ("select FileName from FileBasic where MJD = %d and Telescope = 'B' and Type = 'B'"
-           % mjd)
-    cur.execute(sql)
-    dr_file = cur.fetchall()
-    fn_lst = "lst2/bias_%d.lst" % mjd
-    f_lst = open(fn_lst, "w")
-    for f in dr_file:
-        f_lst.write(f[0] + "\n")
-    f_lst.close()
+    if not os.path.isfile(out_bias):
+        os.system("mkdir -p %s" % out_bias_path)
 
-    cmd = "idl bias_shell2.pro -args %s %s" % (fn_lst, out_bias)
-    print (cmd)
-    os.system(cmd)
+        sql = ("select FileName from FileBasic where MJD = %d and Telescope = 'B' and Type = 'B'"
+               % mjd)
+        print (sql)
+        cur.execute(sql)
+        dr_file = cur.fetchall()
+        fn_lst = "lst2/bias_%d.lst" % mjd
+        f_lst = open(fn_lst, "w")
+        for f in dr_file:
+            f_lst.write(f[0] + "\n")
+        f_lst.close()
+
+        cmd = "idl bias_shell2.pro -args %s %s" % (fn_lst, out_bias)
+        print (cmd)
+        os.system(cmd)
+
+    for filter in ['u', 'v']:
+        out_flat_path = "/data/red/bok/%s/pass2/%s/J%d/" % (filter, run_path, mjd)
+        out_flat = out_flat_path + "flat.fits"
+        if not os.path.isfile(out_flat):
+            os.system("mkdir -p %s" % out_flat_path)
+
+            sql = ("select FileName from FileBasic where MJD = %d and FilterCode = '%s' and Telescope = 'B' and Type = 'F'"
+                   % (filter, mjd))
+            print (sql)
+            cur.execute(sql)
+            dr_file = cur.fetchall()
+            fn_lst = "lst2/flat_%s_%d.lst" % (filter, mjd)
+            f_lst = open(fn_lst, "w")
+            for f in dr_file:
+                f_lst.write(f[0] + "\n")
+            f_lst.close()
+
+            cmd = "idl flat_shell2.pro -args %s %s %s" % (fn_lst, out_bias, out_flat)
+            print (cmd)
+            os.system(cmd)
 
 
 
@@ -47,6 +71,7 @@ if __name__ == "__main__" :
         run = one_night[0]
         mjd = one_night[1]
         bias_flat(run, mjd, cur)
+        break
 
     cur.close()
     conn.close()
