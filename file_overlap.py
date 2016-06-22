@@ -54,7 +54,6 @@ if __name__ == "__main__" :
                                   level)
             cur.execute(sql_ins)
         conn.commit()
-        break
 
     cur.close()
     conn.close()
