@@ -19,7 +19,7 @@ pro zb_pp_flat, listfile, bias, outfile
     print, bias, format='("Load BIAS : ",A / 12x,"Section : ",$)'
     for gg = 1, namp do begin
         print, gg, format='(I2,",",$)'
-        bias_dat[*,*, gg-1] = mrdfits(bias, gg)
+        bias_dat[*,*, gg-1] = mrdfits(bias, gg, /silent)
     endfor
     print, ''
 
