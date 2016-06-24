@@ -34,7 +34,7 @@ pro zb_pp_flat, listfile, bias, outfile
     endfor
 
     print, gg, format='("Merging....")'
-    merge_flat_dat = median(flat_dat, dim=4, /even) $
+    merge_flat_dat = median(flat_dat, dim=4, /even)
 
     for gg = 1, namp do begin
         hdr1 = headfits(flatfiles[0], ext=gg, /silent)

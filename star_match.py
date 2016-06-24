@@ -72,7 +72,7 @@ def star_match ( list_a, list_b, a_ra, a_dec, b_ra, b_dec, a_mag=-1, b_mag=-1,
                 dis_ab.append(dis)
                 
     out_a = np.array(out_a)
-    out_a = np.array(out_a)
+    out_b = np.array(out_b)
     #dis_ra = np.array(dis_ra)
     #dis_dec = np.array(dis_dec)
     dis_ab = np.array(dis_ab)

@@ -22,7 +22,7 @@ if __name__ == "__main__" :
     sql_sdss = "select ObjID, RAdeg, Decdeg, magu from SDSSnearM67"
     cur.execute(sql_sdss)
     tb_sdss = cur.fetchall()
-    print ("%d Stars from SDSS" % (cur.rows_count))
+    print ("%d Stars from SDSS" % (cur.rowcount))
 
     sql_m67 = "select fileid, filtercode, exptime, (select count(*) from Stars where fileid=m67.fileid) as cnt from m67"
     cur.execute(sql_m67)
