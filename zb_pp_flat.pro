@@ -18,7 +18,7 @@ pro zb_pp_flat, listfile, bias, outfile
 
     print, bias, format='("Load BIAS : ",A / 12x,"Section : ",$)'
     for gg = 1, namp do begin
-        print, gg, format='(I2,",",$)'
+        print, gg, format='(" ",I2,",",$)'
         bias_dat[*,*, gg-1] = mrdfits(bias, gg, /silent)
     endfor
     print, ''
@@ -42,7 +42,7 @@ pro zb_pp_flat, listfile, bias, outfile
     for gg = 1, namp do begin
         hdr1 = headfits(flatfiles[0], ext=gg, /silent)
         sxaddpar, hdr1, 'BZERO', 0.0
-        mwrfits, merge_flat_dat[*,*, gg-1], outfile, hdr1
+        mwrfits, merge_flat_dat[*,*, gg-1], outfile, hdr1, /silent
     endfor
 
     print, 'FLAT Done'
