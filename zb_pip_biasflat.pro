@@ -14,8 +14,8 @@ function zb_pip_biasflat, rawpath, sci_path, file, bias, flat, $
 
         ; load sec data, remove overscan, correct bias and flat
         dat0 = mrdfits(obs_fits, gg, hdr1, /silent)
-        osdir = (sxpar(hdr1, 'OVRSCAN2') eq 0 ? 1 : 2)
-        dat1 = zb_rm_overscan(dat0 + 32768U, osdir)
+        ;osdir = (sxpar(hdr1, 'OVRSCAN2') eq 0 ? 1 : 2)
+        dat1 = zb_rm_overscan(dat0 + 32768L) ; U, osdir)
         dat2 = (dat1 - bias_dat) / flat_dat
 
         ; save temp sec fits and call SourceEXtractor

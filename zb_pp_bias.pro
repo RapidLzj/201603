@@ -13,7 +13,7 @@ pro zb_pp_bias, listfile, outfile
       print, ff+1, n_file, gg, biasfiles[ff], format='("Load ",I3,"/",I-3," Section ",I2," : ",A)'
 
       dat0 = mrdfits(biasfiles[ff], gg, hdr1, /silent)
-      bias_dat[*,*, ff] = zb_rm_overscan(dat0 + 32768U)
+      bias_dat[*,*, ff] = zb_rm_overscan(dat0 + 32768L)
     endfor
     print, gg, format='("Section ",I2," merging....")'
     merge_bias_dat = median(bias_dat, dim=3, /even)
