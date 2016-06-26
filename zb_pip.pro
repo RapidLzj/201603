@@ -87,7 +87,7 @@ pro zb_pip, rawpath, redpath, file, bias, flat, $
     r_default, recenter
     ; mag correction keyword
     r_default, magauto
-    r_default, magcata, 'catalog/HM1998.fits'
+    r_default, catamag, 'catalog/HM1998.fits'
     ; cross identifier keywords
     r_default, catacross, 'catalog/hd.ldac'
     r_default, wcscross

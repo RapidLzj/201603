@@ -12,6 +12,6 @@ flat = args[5]
 print, tel,rawp,redp,bare,bias,flat,format='("(",a,")")'
 
 zb_pip, rawp, redp, bare, bias, flat, /magauto,/over,/verbose, $
-    magcata='catalog/block1.fits',works=2,version='fit'
+    catamag='catalog/block1x.ldac',works=2,version='fit'
 
 exit

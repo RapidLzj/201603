@@ -1,5 +1,5 @@
 """
-    2016-06-28
+    2016-06-26
     Mag calibration using fitted u from APASS catalog
 """
 
@@ -53,9 +53,13 @@ if __name__ == "__main__" :
     dr_file = cur.fetchall()
     print (sql)
 
+    c = 0
     for row in dr_file:
+        c += 1
         filename = row[0]
-        bok_one(filename)
+        print (filename)
+        if c == 10 : bok_one(filename)
+        if c == 12 : break
 
     cur.close()
     conn.close()

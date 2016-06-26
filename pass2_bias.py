@@ -39,7 +39,8 @@ def bias_flat(run, mjd, cur) :
     for fil in ['u', 'v']:
         out_flat_path = "/data/red/bok/%s/pass2/%s/J%d/" % (fil, run_path, mjd)
         out_flat = out_flat_path + "flat.fits"
-        if not os.path.isfile(out_flat):
+        #if not os.path.isfile(out_flat):
+        if True :
             os.system("mkdir -p %s" % out_flat_path)
 
             sql = ("select FileName from FileBasic where MJD = %d and FilterCode = '%s' and Telescope = 'B' and Type = 'F'"
