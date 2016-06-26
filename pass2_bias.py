@@ -18,7 +18,7 @@ def bias_flat(run, mjd, cur) :
     out_bias_path = "/data/red/bok/@/pass2/%s/J%d/" % (run_path, mjd)
     out_bias = out_bias_path + "bias.fits"
 
-    if not os.path.isfile(out_bias):
+    if True: #not os.path.isfile(out_bias):
         os.system("mkdir -p %s" % out_bias_path)
 
         sql = ("select FileName from FileBasic where MJD = %d and Telescope = 'B' and Type = 'B'"
@@ -72,7 +72,7 @@ if __name__ == "__main__" :
         run = one_night[0]
         mjd = one_night[1]
         bias_flat(run, mjd, cur)
-        
+
 
     cur.close()
     conn.close()
