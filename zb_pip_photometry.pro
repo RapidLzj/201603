@@ -108,6 +108,7 @@ function zb_pip_photometry, rawpath, sci_path, file, $
     skysigx = get_sigma(datx)
     skymagx = 25.0 - 2.5 * alog10(skymedx / pixscl2)
     skyerrx = 2.5 * alog10(1.0 + skysigx / skymedx)
+    if screenmode eq 2 then print, skymagx, skymag, format='("Sky mag ",F5.2," : ", 16(x,F5.2))'
 
     ; sort stars by mag, and assign serial number(sn)
     ix = sort(stars.mag_auto)

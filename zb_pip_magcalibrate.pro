@@ -109,7 +109,13 @@ function zb_pip_magcalibrate, sci_path, file, $
     ;if ix[0] ne -1 then begin
     ;magmed = lzju_trisigma(mmagdiff , magstd, /normal )
     ;magix = where(abs(magd - magmed) le 0.5, nmag)
-    magix = lindgen(magmatch) ; auto chosen all matched stars, r_match already do mag 3 sigma
+    if magmatch lt 10 then begin
+        ; 20160626 if match few, auto choose all
+        magix = lindgen(magmatch) ; auto chosen all matched stars, r_match already do mag 3 sigma
+    endif else begin
+        ; if more, use 3 sigma clip
+        meanclip, mmagdiff, mag_const, err_const, subs=magix
+    endelse
     hit[magix] = 1
     ;endif
 
@@ -118,15 +124,16 @@ function zb_pip_magcalibrate, sci_path, file, $
         print, 'No', 'CID', 'CATA RA', 'DEC', 'MAG', $
             'SID', 'STAR RA', 'DEC', 'MAG', $
             'Distan', 'Diff', $
-            format='(A-3,2X, 2("|",A5,2(X,A12),X,A9,2X), "|",A7," (",A9,") ")'
+            format='(A-4,2X, 2("|",A6,2(X,A12),X,A9,2X), "|",A7," (",A9,") ")'
         for ii = 0, magmatch-1 do begin
-            print, ii, (hit[ii]?'*':' '), $
+            print, ii, (hit[ii]?'+':' '), $
                 mcid[ii], r_hms(mrac[mcid[ii]]/15.0), r_hms(mdecc[mcid[ii]]), mmagc[mcid[ii]], $
                 msid[ii], r_hms(mras[msid[ii]]/15.0), r_hms(mdecs[msid[ii]]), mmags[msid[ii]], $
-                mcsdis[ii], mmagdiff[ii], (hit[ii]?'*':' '), ii, $
-                format='(I3.2,1A,1X, 2("|",I5,2(X,A12),X,F9.5,2X), "|",F7.4," (",F9.5,") ", 1A,I3.2)'
+                mcsdis[ii]* 3600.0, mmagdiff[ii], (hit[ii]?'+':' '), ii, $
+                format='(I4.2,1A,1X, 2("|",I6,2(X,A12),X,F9.5,2X), "|",F7.4," (",F9.5,") ", 1A,I3.2)'
         endfor
     endif
+    print, magmatch, n_elements(magix), format='(I5," matched, ",I5," auto choosed")'
 
     if magauto then begin
         ;magix = where(mmagc[mcid] lt 90.0 and mmags[msid] lt 90.0) ; already checked before
@@ -160,7 +167,7 @@ function zb_pip_magcalibrate, sci_path, file, $
     meanclip, mmagdiff, mag_const, err_const
 
     if screenmode ge 1 then $
-        print, nmag, mag_const, err_const, format='(I3," star(s) used, const=",F6.3,"+-",F6.4)'
+        print, nmag, mag_const, err_const, format='(I4," star(s) used, const=",F6.3,"+-",F6.4)'
 
     stars.mag_corr = stars.mag_auto + mag_const
     ;mag_limit = mag_limit_0 + mag_const
