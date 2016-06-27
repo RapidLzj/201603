@@ -112,9 +112,16 @@ function zb_pip_magcalibrate, sci_path, file, $
     if magmatch lt 10 then begin
         ; 20160626 if match few, auto choose all
         magix = lindgen(magmatch) ; auto chosen all matched stars, r_match already do mag 3 sigma
-    endif else begin
-        ; if more, use 3 sigma clip
+    endif else if magmatch le 60 then begin
+        ; if 10-60, use 3 sigma clip
         meanclip, mmagdiff, mag_const, err_const, subs=magix
+    endif else begin
+        ; more than 60, choose brightest 10%<20th to 90%<100th
+        ixlow = fix(magmatch * 0.1) < 20
+        ixhgh = fix(magmatch * 0.9) < 100
+        magix = indgen(ixhgh - ixlow) + ixlow
+        meanclip, mmagdiff[magix], mag_const, err_const, subs=magix2
+        magix = magix[magix2]
     endelse
     hit[magix] = 1
     ;endif
