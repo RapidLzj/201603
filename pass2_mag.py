@@ -58,8 +58,8 @@ if __name__ == "__main__" :
         c += 1
         filename = row[0]
         print (filename)
-        if c == 10 : bok_one(filename)
-        if c == 12 : break
+        bok_one(filename)
+        #if c == 12 : break
 
     cur.close()
     conn.close()
