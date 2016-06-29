@@ -200,6 +200,21 @@ function zb_pip_magcalibrate, sci_path, file, $
     r_ldac_write, mag_ldac, stars, hdr
     zh_outcat, mag_cat, stars
 
+    ; draw mag difference histogram
+    old_device = !d.name
+    set_plot, 'ps'
+    device,filename=sci_path + file + '.magconst.eps',$
+        /color,bits_per_pixel=16,xsize=15,ysize=10, $
+        /encapsulated,yoffset=0,xoffset=0,/TT_FONT,/helvetica,/bold,font_size=12
+    plothist, mmagdiff, bin=0.05, title='Mag Calibration Value', $
+        xtitle=string(mag_const, err_const, nmag, format='("Const = ",F7.4,"+-",F7.5," (N=",I4,")")')
+    oplot, [0,0]+mag_const-err_const, [0,20], line=1
+    oplot, [0,0]+mag_const+err_const, [0,20], line=1
+    oplot, [0,0]+mag_const, [0,20], line=2
+    device, /close
+    set_plot, old_device
+
+
     return, nmag ;FLAG_OK
 
 magfail:

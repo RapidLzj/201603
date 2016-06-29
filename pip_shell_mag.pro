@@ -8,10 +8,12 @@ redp = args[2]
 bare = args[3]
 bias = args[4]
 flat = args[5]
+if cnt gt 6 then version = args[6] else version='fit'
+if cnt gt 7 then works = fix(args[7]) else works = 0
 
 print, tel,rawp,redp,bare,bias,flat,format='("(",a,")")'
 
 zb_pip, rawp, redp, bare, bias, flat, /magauto,/over,/verbose, $
-    /ub1, /keep, catamag='catalog/block1x.ldac',version='fit'
+    /ub1, /keep, catamag='catalog/block1x.ldac',version=version, works=works
 
 exit
