@@ -25,7 +25,7 @@ def bok_one(filename):
     sci_path = "/data/red/bok/%s/pass2/%s/%s/%s/" % (flt, run, mjd, typ)
     raw_path = os.path.dirname(filename)
 
-    cmd = "idl pip_shell_mag.pro -args B %s %s %s %s %s fit2 2" % (
+    cmd = "idl pip_shell_mag.pro -args B %s %s %s %s %s 0711 2" % (
         raw_path, sci_path, bare, bias_file, flat_file)
     print (cmd)
     os.system(cmd)
@@ -60,7 +60,7 @@ if __name__ == "__main__" :
         filename = row[0]
         print (filename)
         bok_one(filename)
-        #if c == 12 : break
+        #if c == 2 : break
 
     cur.close()
     conn.close()
