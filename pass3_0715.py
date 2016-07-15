@@ -1,7 +1,9 @@
 """
-    2016-06-28
-    Mag calibration using fitted u from APASS catalog
-    limit middle part of match, and draw mag difference
+    xx 2016-06-26
+    xx Mag calibration using fitted u from APASS catalog
+    2016-07-15
+    Using APASS u to calibrate flux. And all original flux reduced to 1s exposure.
+    Use bias and flat from pass2, but result in pass3
 """
 
 import os
@@ -22,10 +24,10 @@ def bok_one(filename):
     bias_file = "/data/red/bok/@/pass2/%s/%s/bias.fits" % (run, mjd)
     flat_file = "/data/red/bok/%s/pass2/%s/%s/flat.fits" % (flt, run, mjd)
 
-    sci_path = "/data/red/bok/%s/pass2/%s/%s/%s/" % (flt, run, mjd, typ)
+    sci_path = "/data/red/bok/%s/pass3/%s/%s/%s/" % (flt, run, mjd, typ)
     raw_path = os.path.dirname(filename)
 
-    cmd = "idl pip_shell_mag.pro -args B %s %s %s %s %s 0715 2" % (
+    cmd = "idl pip_shell_mag.pro -args B %s %s %s %s %s" % (
         raw_path, sci_path, bare, bias_file, flat_file)
     print (cmd)
     os.system(cmd)
@@ -60,7 +62,7 @@ if __name__ == "__main__" :
         filename = row[0]
         print (filename)
         bok_one(filename)
-        #if c == 2 : break
+        #if c == 10 : break
 
     cur.close()
     conn.close()

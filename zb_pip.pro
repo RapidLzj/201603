@@ -5,7 +5,7 @@ pro zb_pip, rawpath, redpath, file, bias, flat, $
     nobf=nobf, $
     nosex=nosex, limitsig=limitsig, checkmag=checkmag, keep=keep, sexcmd=sexcmd, $
     nowcs=nowcs, catawcs=catawcs, sdss=sdss, ub1=ub1, recenter=recenter, $
-    nomag=nomag, magauto=magauto, catamag=catamag, magmatchmax=magmatchmax$
+    nomag=nomag, magauto=magauto, catamag=catamag, magmatchmax=magmatchmax, $
     cross=cross, catacross=catacross, wcscross=wcscross
 
     horline = strjoin(replicate('=',80),'')

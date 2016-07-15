@@ -1,5 +1,5 @@
 function zb_pip_magcalibrate, sci_path, file, $
-            magauto, catamag, checkmag, matchdis=matchdis, magmatchmax=magmatchmax$
+            magauto, catamag, checkmag, matchdis=matchdis, magmatchmax=magmatchmax, $
             version=version, screenmode=screenmode
 
     r_default, magauto, 0
