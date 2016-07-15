@@ -104,7 +104,7 @@ function zb_pip_magcalibrate, sci_path, file, $
 
     mmagdiff = mmagc[mcid]-mmags[msid]
     ;mcsdis = mcsdis[1:*] & mcid = mcid[1:*] & msid = msid[1:*] & mmagdiff = mmagdiff[1:*]
-    hit = intarr(magmatch)
+    hit = strarr(magmatch) + ' '
     ;ix = where(mmagdiff gt -6.0 and mmagdiff lt 3.0) ; empirical data
     ;if ix[0] ne -1 then begin
     ;magmed = lzju_trisigma(mmagdiff , magstd, /normal )
@@ -119,11 +119,11 @@ function zb_pip_magcalibrate, sci_path, file, $
         ; more than 60, choose brightest 10%<20th to 90%<100th
         ixlow = fix(magmatch * 0.1) < 20
         ixhgh = fix(magmatch * 0.9) < 100
-        magix = indgen(ixhgh - ixlow) + ixlow
+        magix = (sort(mmags[msid]))[ixlow:ixhgh]
         meanclip, mmagdiff[magix], mag_const, err_const, subs=magix2
         magix = magix[magix2]
     endelse
-    hit[magix] = 1
+    hit[magix] = '+'
     ;endif
 
     ; print matched list, for manual chosen and check
@@ -132,12 +132,14 @@ function zb_pip_magcalibrate, sci_path, file, $
             'SID', 'STAR RA', 'DEC', 'MAG', $
             'Distan', 'Diff', $
             format='(A-4,2X, 2("|",A6,2(X,A12),X,A9,2X), "|",A7," (",A9,") ")'
+        magix2 = sort(mmags[msid])
         for ii = 0, magmatch-1 do begin
-            print, ii, (hit[ii]?'+':' '), $
-                mcid[ii], r_hms(mrac[mcid[ii]]/15.0), r_hms(mdecc[mcid[ii]]), mmagc[mcid[ii]], $
-                msid[ii], r_hms(mras[msid[ii]]/15.0), r_hms(mdecs[msid[ii]]), mmags[msid[ii]], $
-                mcsdis[ii]* 3600.0, mmagdiff[ii], (hit[ii]?'+':' '), ii, $
-                format='(I4.2,1A,1X, 2("|",I6,2(X,A12),X,F9.5,2X), "|",F7.4," (",F9.5,") ", 1A,I3.2)'
+            iii = magix2[ii]
+            print, iii, hit[iii], $
+                mcid[iii], r_hms(mrac[mcid[iii]]/15.0), r_hms(mdecc[mcid[iii]]), mmagc[mcid[iii]], $
+                msid[iii], r_hms(mras[msid[iii]]/15.0), r_hms(mdecs[msid[iii]]), mmags[msid[iii]], $
+                mcsdis[iii]* 3600.0, mmagdiff[iii], hit[iii], iii, $
+                format='(I4.2,1A,1X, 2("|",I6,2(X,A12),X,F9.5,2X), "|",F7.4," (",F9.5,") ", 1A,I4.2)'
         endfor
     endif
     print, magmatch, n_elements(magix), format='(I5," matched, ",I5," auto choosed")'
@@ -204,10 +206,9 @@ function zb_pip_magcalibrate, sci_path, file, $
     old_device = !d.name
     set_plot, 'ps'
     device,filename=sci_path + file + '.magconst.eps',$
-        /color,bits_per_pixel=16,xsize=15,ysize=10, $
+        /color,bits_per_pixel=16,xsize=30,ysize=20, $
         /encapsulated,yoffset=0,xoffset=0,/TT_FONT,/helvetica,/bold,font_size=12
-    plothist, mmagdiff, bin=0.05, title='Mag Calibration Value', $
-        xtitle=string(mag_const, err_const, nmag, format='("Const = ",F7.4,"+-",F7.5," (N=",I4,")")')
+    plothist, mmagdiff, bin=0.05, title=string(mag_const, err_const, nmag, format='(F6.3,"+-",F6.4," (",I3,")")')
     oplot, [0,0]+mag_const-err_const, [0,20], line=1
     oplot, [0,0]+mag_const+err_const, [0,20], line=1
     oplot, [0,0]+mag_const, [0,20], line=2
