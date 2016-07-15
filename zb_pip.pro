@@ -5,7 +5,7 @@ pro zb_pip, rawpath, redpath, file, bias, flat, $
     nobf=nobf, $
     nosex=nosex, limitsig=limitsig, checkmag=checkmag, keep=keep, sexcmd=sexcmd, $
     nowcs=nowcs, catawcs=catawcs, sdss=sdss, ub1=ub1, recenter=recenter, $
-    nomag=nomag, magauto=magauto, catamag=catamag, $
+    nomag=nomag, magauto=magauto, catamag=catamag, magmatchmax=magmatchmax$
     cross=cross, catacross=catacross, wcscross=wcscross
 
     horline = strjoin(replicate('=',80),'')
@@ -88,6 +88,7 @@ pro zb_pip, rawpath, redpath, file, bias, flat, $
     ; mag correction keyword
     r_default, magauto
     r_default, catamag, 'catalog/HM1998.fits'
+    r_default, magmatchmax, 80
     ; cross identifier keywords
     r_default, catacross, 'catalog/hd.ldac'
     r_default, wcscross
@@ -183,7 +184,7 @@ pro zb_pip, rawpath, redpath, file, bias, flat, $
 
     if ~ nomag and flag_wcs ne FLAG_FAIL and flag_wcs ne FLAG_ERROR then begin
         flag_mag = zb_pip_magcalibrate( sci_path, file, $
-            magauto, catamag, checkmag, matchdis=matchdis, $
+            magauto, catamag, checkmag, matchdis=matchdis, magmatchmax=magmatchmax, $
             screenmode=screenmode)
     endif else begin
         flag_mag = FLAG_SKIP

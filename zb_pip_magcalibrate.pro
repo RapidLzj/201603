@@ -1,17 +1,19 @@
 function zb_pip_magcalibrate, sci_path, file, $
-            magauto, catamag, checkmag, matchdis=matchdis, $
-            screenmode=screenmode
+            magauto, catamag, checkmag, matchdis=matchdis, magmatchmax=magmatchmax$
+            version=version, screenmode=screenmode
 
     r_default, magauto, 0
     r_default, catamag, 'catalog/HM1998.fits'
     r_default, checkmag, [15.0, 16.0, 17.0, 18.0, 19.0]
     r_default, matchdis, 0.002  ; 7.2 as
+    r_default, magmatchmax, 60
     r_default, screenmode, 1
+    r_default, version, '.' & if version ne '.' then version = '.' + version else version = ''
     @zh_const.pro
 
     wcs_ldac = sci_path + file + '.wcs.ldac'
-    mag_ldac = sci_path + file + '.mag.ldac'
-    mag_cat  = sci_path + file + '.mag.cat'
+    mag_ldac = sci_path + file + version + '.mag.ldac'
+    mag_cat  = sci_path + file + version + '.mag.cat'
 
     ; load astrometry result
     stars = r_ldac_read(wcs_ldac, hdr, /silent)
@@ -112,13 +114,13 @@ function zb_pip_magcalibrate, sci_path, file, $
     if magmatch lt 10 then begin
         ; 20160626 if match few, auto choose all
         magix = lindgen(magmatch) ; auto chosen all matched stars, r_match already do mag 3 sigma
-    endif else if magmatch le 60 then begin
-        ; if 10-60, use 3 sigma clip
+    endif else if magmatch le magmatchmax then begin
+        ; if 10-magmatchmax, use 3 sigma clip
         meanclip, mmagdiff, mag_const, err_const, subs=magix
     endif else begin
-        ; more than 60, choose brightest 10%<20th to 90%<100th
-        ixlow = fix(magmatch * 0.1) < 20
-        ixhgh = fix(magmatch * 0.9) < 100
+        ; more than magmatchmax, choose brightest 10%<20th to 90%<100th
+        ixlow = fix(magmatch * 0.1) < (magmatchmax * 0.2)
+        ixhgh = fix(magmatch * 0.9) < (magmatchmax * 1.2)
         magix = (sort(mmags[msid]))[ixlow:ixhgh]
         meanclip, mmagdiff[magix], mag_const, err_const, subs=magix2
         magix = magix[magix2]
@@ -205,7 +207,7 @@ function zb_pip_magcalibrate, sci_path, file, $
     ; draw mag difference histogram
     old_device = !d.name
     set_plot, 'ps'
-    device,filename=sci_path + file + '.magconst.eps',$
+    device,filename=sci_path + file + version + '.magconst.eps',$
         /color,bits_per_pixel=16,xsize=30,ysize=20, $
         /encapsulated,yoffset=0,xoffset=0,/TT_FONT,/helvetica,/bold,font_size=12
     plothist, mmagdiff, bin=0.05, title='Mag Calibration Value', $
