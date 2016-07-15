@@ -204,13 +204,14 @@ function zb_pip_magcalibrate, sci_path, file, $
     old_device = !d.name
     set_plot, 'ps'
     device,filename=sci_path + file + '.magconst.eps',$
-        /color,bits_per_pixel=16,xsize=15,ysize=10, $
+        /color,bits_per_pixel=16,xsize=30,ysize=20, $
         /encapsulated,yoffset=0,xoffset=0,/TT_FONT,/helvetica,/bold,font_size=12
     plothist, mmagdiff, bin=0.05, title='Mag Calibration Value', $
-        xtitle=string(mag_const, err_const, nmag, format='("Const = ",F7.4,"+-",F7.5," (N=",I4,")")')
-    oplot, [0,0]+mag_const-err_const, [0,20], line=1
-    oplot, [0,0]+mag_const+err_const, [0,20], line=1
-    oplot, [0,0]+mag_const, [0,20], line=2
+        xtitle=string(mag_const, err_const, nmag, format='("Const = ",F7.4,"+-",F7.5," (N=",I4,")")'), $
+        position=[0.1,0.1,0.9,0.9]
+    oplot, [0,0]+mag_const-err_const, [0,25], line=1
+    oplot, [0,0]+mag_const+err_const, [0,25], line=1
+    oplot, [0,0]+mag_const, [0,25], line=2
     device, /close
     set_plot, old_device
 
