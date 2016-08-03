@@ -61,7 +61,7 @@ function zn_pip_magcalibrate, sci_path, file, $
 
     ; 20160311: change cata_in to mag limit, but not coord limit, make sure mag is valid
 
-    fi = strtrim(sxpar(hdr, 'FILTER'))
+    fi = strtrim(sxpar(hdr, 'FILTER'),2)
     if fi eq 'strumu' then $
         mmagc = magcatalog.u $
     else if fi eq 'strumv' then $
