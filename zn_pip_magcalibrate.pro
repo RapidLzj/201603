@@ -68,7 +68,7 @@ function zn_pip_magcalibrate, sci_path, file, $
         mmagc = magcatalog.v $
     else if fi eq 'b' then $
         mmagc = magcatalog.b $
-    if fi eq 'g' then $
+    else if fi eq 'g' then $
         mmagc = magcatalog.g $
     else if fi eq 'r' then $
         mmagc = magcatalog.r $
