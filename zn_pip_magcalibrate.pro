@@ -3,7 +3,7 @@ function zn_pip_magcalibrate, sci_path, file, $
             screenmode=screenmode
 
     r_default, magauto, 0
-    r_default, catamag, 'catalog/apass.ldac' ;'catalog/HM1998.fits'
+    r_default, catamag, 'catalog/HM1998.fits'
     r_default, checkmag, [15.0, 16.0, 17.0, 18.0, 19.0]
     r_default, matchdis, 0.002  ; 7.2 as
     r_default, screenmode, 1
@@ -16,9 +16,13 @@ function zn_pip_magcalibrate, sci_path, file, $
     ; load astrometry result
     stars = r_ldac_read(wcs_ldac, hdr, /silent)
     n_star = n_elements(stars)
+    fi = strtrim(sxpar(hdr, 'FILTER'),2)
 
     ; load catalogue
-    magcatalog = mrdfits(catamag, 1, /silent)
+    if fi eq 'g' || fi eq 'r' || fi eq 'i' then $
+        magcatalog = zh_magcata(sxpar(hdr, 'CRVAL1'), sxpar(hdr, 'CRVAL2')) $
+    else $
+        magcatalog = mrdfits(catamag, 1, /silent)
 
     ; assume no match of catalog
     mag_const = 99.99
