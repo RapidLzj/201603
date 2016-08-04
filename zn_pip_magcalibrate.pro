@@ -3,7 +3,7 @@ function zn_pip_magcalibrate, sci_path, file, $
             screenmode=screenmode
 
     r_default, magauto, 0
-    r_default, catamag, 'catalog/HM1998.fits'
+    r_default, catamag, 'catalog/apass.ldac' ;'catalog/HM1998.fits'
     r_default, checkmag, [15.0, 16.0, 17.0, 18.0, 19.0]
     r_default, matchdis, 0.002  ; 7.2 as
     r_default, screenmode, 1
