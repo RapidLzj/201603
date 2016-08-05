@@ -40,7 +40,7 @@
     rt0 = rot_ang
 
     if screenmode gt 0 then print, format='("Re-allocate center and rotate. ")'
-    for k=0, 3 do begin
+    for k=1, 3 do begin  ;20160805, change 0-3 to 1-3, for nowt test
       if screenmode gt 0 then print, k+1, format='("--> Stage ",I1, " ", $)'
       try_n = try_count[k] + try_count[k] + 1
       val1check = (findgen(try_n)-try_count[k]) * val_step[k] + cr[0]
