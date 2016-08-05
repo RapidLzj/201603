@@ -128,13 +128,13 @@ function zn_pip_magcalibrate, sci_path, file, $
         print, 'No', 'CID', 'CATA RA', 'DEC', 'MAG', $
             'SID', 'STAR RA', 'DEC', 'MAG', $
             'Distan', 'Diff', $
-            format='(A-3,2X, 2("|",A5,2(X,A12),X,A9,2X), "|",A7," (",A9,") ")'
+            format='(A-4,2X, 2("|",A5,2(X,A12),X,A9,2X), "|",A7," (",A9,") ")'
         for ii = 0, magmatch-1 do begin
             print, ii, (hit[ii]?'*':' '), $
                 mcid[ii], r_hms(mrac[mcid[ii]]/15.0), r_hms(mdecc[mcid[ii]]), mmagc[mcid[ii]], $
                 msid[ii], r_hms(mras[msid[ii]]/15.0), r_hms(mdecs[msid[ii]]), mmags[msid[ii]], $
                 mcsdis[ii], mmagdiff[ii], (hit[ii]?'*':' '), ii, $
-                format='(I3.2,1A,1X, 2("|",I5,2(X,A12),X,F9.5,2X), "|",F7.4," (",F9.5,") ", 1A,I3.2)'
+                format='(I4,1A,1X, 2("|",I5,2(X,A12),X,F9.5,2X), "|",F7.4," (",F9.5,") ", 1A,I4)'
         endfor
     endif
 
@@ -170,7 +170,7 @@ function zn_pip_magcalibrate, sci_path, file, $
     meanclip, mmagdiff, mag_const, err_const
 
     if screenmode ge 1 then $
-        print, nmag, mag_const, err_const, format='(I3," star(s) used, const=",F6.3,"+-",F6.4)'
+        print, nmag, mag_const, err_const, format='(I4," star(s) used, const=",F6.3,"+-",F6.4)'
 
     stars.mag_corr = stars.mag_auto + mag_const
     ;mag_limit = mag_limit_0 + mag_const
