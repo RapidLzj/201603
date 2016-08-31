@@ -8,16 +8,17 @@ function zb_rm_overscan, dat, dir, dofit=dofit
 
   nx = 2016 & nxa = 2036 & ny = 2048 & nya = 2068
 
-  dat_o = fltarr(nx, ny)
-  dat_o[*, *] = dat[0:nx-1, 0:ny-1]
+  ;dat_o = dblarr(nx, ny)
+  ;dat_o[*, *] = dat[0:nx-1, 0:ny-1]
+  dat_o = double(dat[0:nx-1, 0:ny-1])
 
   begin
     ;process overscan of x
-    os = median(dat[nx:nxa-1, 0:ny-1], dim=1)
+    os = median(dat[nx:nxa-1, 0:ny-1], dim=1, /double)
 
     if dofit then begin
-        p = findgen(ny)
-        ab = poly_fit(p, os, 3, yfit=osf)
+        p = dindgen(ny)
+        ab = poly_fit(p, os, 3, yfit=osf, /double)
         ;osf = poly(p, ab)
     endif else begin
         osf = os
@@ -30,11 +31,11 @@ function zb_rm_overscan, dat, dir, dofit=dofit
 
   if dir ne 1 then begin
     ; process overscan of y
-    os = median(dat[0:nx-1, ny:nya-1], dim=2)
+    os = median(dat[0:nx-1, ny:nya-1], dim=2, /double)
 
     if dofit then begin
-        p = findgen(nx)
-        ab = poly_fit(p, os, 3, yfit=osf)
+        p = dindgen(nx)
+        ab = poly_fit(p, os, 3, yfit=osf, /double)
         ;osf = poly(p, ab)
     endif else begin
         osf = os
@@ -45,7 +46,7 @@ function zb_rm_overscan, dat, dir, dofit=dofit
     endfor
 
     ; add cross area
-    os = median(dat[nx:nxa-1, ny:nya-1])
+    os = median(dat[nx:nxa-1, ny:nya-1], /double)
     dat_o += os
   endif
 
