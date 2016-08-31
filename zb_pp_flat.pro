@@ -27,7 +27,7 @@ pro zb_pp_flat, listfile, bias, outfile
         print, ff+1, n_file, flatfiles[ff], format='("Load ",I3,"/",I-3," : ",A / 12x,"Section : ",$)'
         for gg = 1, namp do begin
             print, gg, format='(" ",I2,",",$)'
-            dat0 = mrdfits(flatfiles[ff], gg, hdr1, /silent, /double)
+            dat0 = mrdfits(flatfiles[ff], gg, hdr1, /silent, /dscale)
             flat_1[*,*, gg-1] = zb_rm_overscan(dat0); + 32768L)
         endfor
         print, ' Normalize ...'
